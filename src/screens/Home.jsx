@@ -11,7 +11,7 @@ function Home() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user.uid);
+        console.log(user);
         setUsers(user);
       } else {
         console.log("please login first!");
@@ -35,6 +35,7 @@ function Home() {
   return (
     <>
       <button onClick={logout}>logout</button>
+      <div>Hello {users.displayName}</div>
     </>
   );
 }
