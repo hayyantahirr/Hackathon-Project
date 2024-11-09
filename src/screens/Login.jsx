@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signInWithPopup } from "firebase/auth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { auth, provider } from "../config/firebase";
+import GoogleButton from "../components/GoogleButton";
 function Login() {
-  const navigate = useNavigate();
   const containerRef = useRef(null);
-  const [value, setValue] = useState();
+
   const handleSignUpClick = () => {
     containerRef.current.classList.add("sign-up-mode");
   };
@@ -16,23 +16,7 @@ function Login() {
   const handleSignInClick = () => {
     containerRef.current.classList.remove("sign-up-mode");
   };
-  function google() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // The signed-in user info.
-        const user = result.user;
-        console.log("user===>", user);
-        setValue(user.email);
-        localStorage.setItem("email", JSON.stringify(user.email));
-        localStorage.setItem("name", JSON.stringify(user.displayName));
-        localStorage.setItem("photoURL", JSON.stringify(user.photoURL));
-        navigate("/home");
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        // ...
-      });
-  }
+
   return (
     <div className="containerr" ref={containerRef}>
       <div className="forms-container">
@@ -43,13 +27,7 @@ function Login() {
 
             <p className="social-text"> Sign in with social platforms</p>
             <div className="social-media">
-              <a href="#" className="social-icon">
-                <i className="fab fa-facebook-f"></i>
-              </a>
-
-              <a href="#" className="social-icon" onClick={google}>
-                <i className="fab fa-google"></i>
-              </a>
+              <GoogleButton />
             </div>
           </form>
 

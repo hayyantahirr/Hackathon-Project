@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 function Home() {
-  const [name, setName] = useState(null);
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
   // setName(localStorage.getItem("name"))
