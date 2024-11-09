@@ -19,6 +19,7 @@ function GoogleButton() {
         userName: user.displayName,
         img: user.photoURL,
         email: user.email,
+        userId: user.uid,
       });
 
       console.log("User added successfully");

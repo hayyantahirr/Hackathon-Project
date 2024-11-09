@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/post.css";
-function Post({ img, caption ,user }) {
+function Post({ img, caption ,creator,email,creatoPic }) {
     function formatCaption(caption, wordsPerLine = 10) {
   const words = caption.split(" ");
   const lines = [];
@@ -28,7 +28,7 @@ function Post({ img, caption ,user }) {
         </div>
       </div> */}
       <div className="like-dislike-container container w-[40rem]">
-        <p className="text-black">Post by :{user}</p>
+        <p className="text-black flex"><img src={creatoPic} alt="" />{creator}</p>
         <img src={img} alt="" className="w- h-full" />
         <p className="text-content text-black">{caption}</p>
         <div className="icons-box">

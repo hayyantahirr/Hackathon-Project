@@ -3,15 +3,18 @@ import Header from "../components/Header";
 import { auth, db } from "../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { addDoc, collection } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function AddPost() {
+function AddPost({ currentUid }) {
+  const location = useLocation();
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null); // Track selected image URL
+const [userDetails, setUserDetails] = useState([]);
   const caption = useRef();
   const img = useRef();
+  const { state } = location; // Get `uid` from passed state
 
   // Handle file change
   const handleFileChange = (e) => {
@@ -27,20 +30,30 @@ function AddPost() {
       }
     }
   };
+  const gettingUserThroughUid = async (uid) => {
+    const q = query(collection(db, "nexoraUsers"), where("userId", "==", state));
 
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      setUserDetails(doc.data());
+    });
+  };
   // Submit the post with validation
   const submitPost = async (e) => {
     e.preventDefault();
+    console.log("current user idddd", userDetails);
 
     const captionText = caption.current.value;
     const wordCount = captionText
       .split(/\s+/)
       .filter((word) => word.length > 0).length; // Count words
 
-    if (wordCount < 40 || wordCount > 120) {
-      alert("Caption must be between 40 and 120 words");
-      return; // Stop submission if validation fails
-    }
+    // if (wordCount < 20 || wordCount > 120) {
+    //   alert("Caption must be between 40 and 120 words");
+    //   return; // Stop submission if validation fails
+    // }
 
     if (img.current.files && img.current.files[0]) {
       const file = img.current.files[0];
@@ -57,6 +70,9 @@ function AddPost() {
         await addDoc(collection(db, "posts"), {
           caption: captionText,
           img: url,
+          creator : userDetails.userName,
+          email : userDetails.email,
+          creatorPic : userDetails.img
         });
         console.log("Product added successfully");
         navigate(-1); // Navigate back after successful submission
@@ -82,13 +98,16 @@ function AddPost() {
     return () => unsubscribe(); // Cleanup subscription on unmount
   }, []);
 
-  
+  useEffect(() => {
+    gettingUserThroughUid();
+  }, []);
   return (
     <>
       <Header
         name={users.displayName}
         imgSrc={users.photoURL}
         email={users.email}
+
       />
       <div className="container mx-auto relative">
         <div className="flex items-center justify-center">

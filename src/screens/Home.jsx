@@ -74,6 +74,7 @@ function Home() {
         name={users.displayName}
         imgSrc={users.photoURL}
         email={users.email}
+        id={users.uid}
       />
 
       <div className="flex flex-col gap-3  justify-center mb-5 items-center">
@@ -86,6 +87,9 @@ function Home() {
                 id={item.id}
                 caption={item.caption}
                 img={item.img}
+                creator={item.creator}
+                creatoPic={item.creatorPic}
+                email={item.email}
               />
             );
           })

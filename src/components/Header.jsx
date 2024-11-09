@@ -1,12 +1,13 @@
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { auth } from "../config/firebase"; // Make sure auth is imported
+import AddPost from "../screens/Addpost";
 
-function Header({ name, imgSrc, email }) {
+function Header({ name, imgSrc, email , id}) {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [currentUid, setCurrentUid] = useState("");
   // Logout function
   const logout = async () => {
     try {
@@ -36,6 +37,7 @@ function Header({ name, imgSrc, email }) {
     );
   };
 
+ 
   return (
     <>
       <div className="navbar bg-base-100 ">
@@ -89,24 +91,25 @@ function Header({ name, imgSrc, email }) {
         </div>
         <div className="navbar-end">
           {location.pathname !== "/addpost" && (
-            <Link to={"/addpost"}>
-              <button
-                className="bg-white text-center w-40 rounded-2xl h-10 relative text-black text-xl font-semibold group mr-8"
-                type="button"
-              >
-                <div className="bg-green-400 rounded-xl h-8 w-1/5 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[152px] z-10 duration-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
-                    width="20px"
-                    height="20px"
-                  >
-                    <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
-                  </svg>
-                </div>
-                <p className="translate-x-2 text-slate-950 text-sm">Add Post</p>
-              </button>
-            </Link>
+            <button
+              className="bg-white text-center w-40 rounded-2xl h-10 relative text-black text-xl font-semibold group mr-8"
+              type="button"
+              onClick={() => {
+                navigate("/addpost", { state: id });
+              }}
+            >
+              <div className="bg-green-400 rounded-xl h-8 w-1/5 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[152px] z-10 duration-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  width="20px"
+                  height="20px"
+                >
+                  <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+                </svg>
+              </div>
+              <p className="translate-x-2 text-slate-950 text-sm">Add Post</p>
+            </button>
           )}
           <div className="dropdown dropdown-end">
             <div
