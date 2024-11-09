@@ -1,18 +1,21 @@
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { auth } from "../config/firebase";
 
-function Drawer({}) {
+function Drawer() {
   const navigate = useNavigate();
+
   const logout = async () => {
     try {
-      await signOut(auth); // Await signOut without then()
+      await signOut(auth);
       console.log("Sign-out successful.");
       navigate("/");
     } catch (error) {
       console.error("Error signing out: ", error);
     }
   };
+
   // Initialize theme from localStorage or default to "emerald"
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "emerald"
@@ -30,44 +33,72 @@ function Drawer({}) {
       prevTheme === "emerald" ? "synthwave" : "emerald"
     );
   };
+
   return (
-    <>
-      <div className="drawer">
-        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          {/* Page content here */}
-          <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-            Open drawer
-          </label>
-        </div>
-        <div className="drawer-side">
-          <label
-            htmlFor="my-drawer"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-            {/* Sidebar content here */}
-            <Link to={"/home"}>
-              <li>
-                <a>Homepage</a>
-              </li>
-            </Link>
+    <div className="flex">
+      {/* Sidebar, always visible on large screens */}
+      <div className="drawer-side w-80 bg-base-200 text-base-content p-4 lg:block hidden min-h-screen">
+        <ul className="menu">
+          <Link to="/home">
             <li>
-              <a>Chats</a>
+              <a>Homepage</a>
             </li>
-            <li>
-              <button onClick={handleToggle}>
-                Switch theme {theme === "emerald" ? "darkMode" : "Light Mode"}
-              </button>
-            </li>
-            <li>
-              <button onClick={logout}>Logout</button>
-            </li>
-          </ul>
+          </Link>
+          <li>
+            <a>Chats</a>
+          </li>
+          <li>
+            <button onClick={handleToggle}>
+              Switch theme {theme === "emerald" ? "darkMode" : "Light Mode"}
+            </button>
+          </li>
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
+        </ul>
+      </div>
+
+      {/* Drawer content area */}
+      <div className="flex-1">
+        {/* "Open drawer" button for smaller screens */}
+        <label
+          htmlFor="my-drawer"
+          className="btn btn-primary lg:hidden block m-4"
+        >
+          Open drawer
+        </label>
+
+        {/* Page content goes here */}
+        <div className="p-4">
+          {/* Content of your main page */}
+          <h1>Your Page Content</h1>
         </div>
       </div>
-    </>
+
+      {/* Drawer overlay and toggle for smaller screens */}
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-side lg:hidden">
+        <label htmlFor="my-drawer" className="drawer-overlay"></label>
+        <ul className="menu bg-base-200 text-base-content w-80 p-4">
+          <Link to="/home">
+            <li>
+              <a>Homepage</a>
+            </li>
+          </Link>
+          <li>
+            <a>Chats</a>
+          </li>
+          <li>
+            <button onClick={handleToggle}>
+              Switch theme {theme === "emerald" ? "darkMode" : "Light Mode"}
+            </button>
+          </li>
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }
 

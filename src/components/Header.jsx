@@ -3,18 +3,40 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { auth } from "../config/firebase"; // Make sure auth is imported
 import AddPost from "../screens/Addpost";
-import Drawer from "./Drawer";
 
-function Header({ name, imgSrc, email , id}) {
+function Header({ name, imgSrc, email, id }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentUid, setCurrentUid] = useState("");
   // Logout function
- 
+  const logout = async () => {
+    try {
+      await signOut(auth); // Await signOut without then()
+      console.log("Sign-out successful.");
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
 
- 
+  // Initialize theme from localStorage or default to "emerald"
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "emerald"
+  );
 
- 
+  // Update theme in localStorage and set the HTML attribute on change
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+    document.querySelector("html").setAttribute("data-theme", theme);
+  }, [theme]);
+
+  // Toggle theme between "emerald" and "synthwave"
+  const handleToggle = () => {
+    setTheme((prevTheme) =>
+      prevTheme === "emerald" ? "synthwave" : "emerald"
+    );
+  };
+
   return (
     <>
       <div className="navbar bg-base-100 ">
@@ -25,10 +47,40 @@ function Header({ name, imgSrc, email , id}) {
               role="button"
               className="btn btn-ghost btn-circle"
             >
-              
-              <Drawer  />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
             </div>
-           
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a href="/">Homepage</a>
+              </li>
+              <li>
+                <a>Chats</a>
+              </li>
+              <li>
+                <button onClick={handleToggle}>
+                  {theme === "emerald" ? "darkMode" : "Light Mode"}
+                </button>
+              </li>
+              <li onClick={logout}>
+                <a>Logout</a>
+              </li>
+            </ul>
           </div>
         </div>
         <div className="navbar-center">
@@ -78,12 +130,7 @@ function Header({ name, imgSrc, email , id}) {
               <li>
                 <p>Name : {name} </p>
               </li>
-              <li>
-                <p>
-                  Email :
-                  <span className="font-semibold text-[0.53rem]">{email}</span>
-                </p>
-              </li>
+
               <li>
                 <a>Friend Requests</a>
               </li>
