@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyC3UciZC9F18CeRB0UxD1xfBvGauzKLoow",
-  authDomain: "hackathon-b60d9.firebaseapp.com",
-  projectId: "hackathon-b60d9",
-  storageBucket: "hackathon-b60d9.firebasestorage.app",
-  messagingSenderId: "162601443955",
-  appId: "1:162601443955:web:261ccf06d18e6474930006",
-  measurementId: "G-L9PD0KS4WH",
+  apiKey: "AIzaSyD6xobFeMtElG3xtCuO028fZoEPjOz_Zro",
+  authDomain: "react-ecommerce-app-detail.firebaseapp.com",
+  projectId: "react-ecommerce-app-detail",
+  storageBucket: "react-ecommerce-app-detail.appspot.com",
+  messagingSenderId: "950142404283",
+  appId: "1:950142404283:web:2b8f6596270433da8b8b9e",
+  measurementId: "G-Y8P0YE4ZPJ",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -15,9 +16,7 @@ const app = initializeApp(firebaseConfig);
 // sign in with google work here
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
-
-
-
+const db = getFirestore(app);
 // signInWithPopup(auth, provider)
 //   .then((result) => {
 //     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -39,4 +38,4 @@ const auth = getAuth();
 //     // ...
 //   });
 // signInWithRedirect(auth, provider);
-export { auth, provider };
+export { auth, provider,db };
