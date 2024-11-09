@@ -11,6 +11,7 @@ function Home() {
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [post, setPost] = useState([]);
+  const [nexora, setNexora] = useState([]);
   const [loading, setLoading] = useState(true);
   // setName(localStorage.getItem("name"))
   useEffect(() => {
@@ -45,9 +46,28 @@ function Home() {
       setLoading(false); // Set loading to false in case of error
     }
   }
+
+  async function userDetails() {
+    const q = query(collection(db, "nexoraUsers")); // Create a query to get all documents in "product" collection
+    try {
+      const querySnapshot = await getDocs(q); // Execute the query
+      const allDocs = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        data.id = doc.id; // Add document ID to the data
+        return data;
+      });
+      setNexora(allDocs); // Update product state with fetched data
+      setLoading(false); // Set loading to false after data is fetched
+      console.log(allDocs); // Log fetched data for debugging
+    } catch (e) {
+      console.log(e); // Log any error that occurs
+      setLoading(false); // Set loading to false in case of error
+    }
+  }
   useEffect(() => {
     gettingDocument();
-  },[]);
+    userDetails();
+  }, []);
   return (
     <>
       <Header
@@ -72,6 +92,7 @@ function Home() {
         ) : (
           <span className="loading loading-dots loading-lg"></span>
         )}
+        
       </div>
     </>
   );

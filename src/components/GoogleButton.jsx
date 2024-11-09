@@ -1,28 +1,33 @@
 import { signInWithPopup } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, provider } from "../config/firebase";
+import { auth, db, provider } from "../config/firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 function GoogleButton() {
   const navigate = useNavigate();
   const [value, setValue] = useState();
-  function google() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // The signed-in user info.
-        const user = result.user;
-        console.log("user===>", user);
-        setValue(user.email);
-        localStorage.setItem("email", JSON.stringify(user.email));
-        localStorage.setItem("name", JSON.stringify(user.displayName));
-        localStorage.setItem("photoURL", JSON.stringify(user.photoURL));
-        navigate("/home");
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        // ...
+
+  async function google() {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("user===>", user);
+      setValue(user);
+
+      await addDoc(collection(db, "nexoraUsers"), {
+        userName: user.displayName,
+        img: user.photoURL,
+        email: user.email,
       });
+
+      console.log("User added successfully");
+      navigate("/home"); // Navigate after successful addition
+    } catch (error) {
+      console.error("Error adding document or during sign-in: ", error);
+    }
   }
+
   return (
     <>
       <button className="button" onClick={google}>

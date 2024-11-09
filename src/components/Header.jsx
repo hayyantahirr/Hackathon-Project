@@ -1,20 +1,21 @@
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { auth } from "../config/firebase"; // Make sure auth is imported
 
 function Header({ name, imgSrc, email }) {
   const navigate = useNavigate();
-  const location = useLocation(); // Use location to check current route
+  const location = useLocation();
 
+  // Logout function
   const logout = async () => {
-    await signOut(auth)
-      .then(() => {
-        navigate("/");
-        console.log("Sign-out successful.");
-      })
-      .catch((error) => {
-        // Handle errors if any
-      });
+    try {
+      await signOut(auth); // Await signOut without then()
+      console.log("Sign-out successful.");
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
   };
 
   // Initialize theme from localStorage or default to "emerald"
@@ -37,7 +38,7 @@ function Header({ name, imgSrc, email }) {
 
   return (
     <>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 ">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -71,7 +72,6 @@ function Header({ name, imgSrc, email }) {
                 <a>Chats</a>
               </li>
               <li>
-                {/* Toggle theme button */}
                 <button onClick={handleToggle}>
                   {theme === "emerald" ? "darkMode" : "Light Mode"}
                 </button>
@@ -88,7 +88,6 @@ function Header({ name, imgSrc, email }) {
           </a>
         </div>
         <div className="navbar-end">
-          {/* Conditionally render the "Add Post" button if not on /addpost route */}
           {location.pathname !== "/addpost" && (
             <Link to={"/addpost"}>
               <button
@@ -119,8 +118,7 @@ function Header({ name, imgSrc, email }) {
                 className="w-10 rounded-full"
                 style={{ display: window.innerWidth < 782 ? "none" : "block" }}
               >
-                {/* Conditionally hide image based on resolution */}
-                <img alt="Tailwind CSS Navbar component" src={imgSrc} />
+                <img alt="User avatar" src={imgSrc} />
               </div>
             </div>
             <ul
