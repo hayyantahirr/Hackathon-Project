@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import Header from "../components/Header";
 
 function Home() {
   const navigate = useNavigate();
@@ -21,19 +22,15 @@ function Home() {
 
     return () => unsubscribe(); // Cleanup subscription on unmount
   }, [auth]);
-  const logout = async () => {
-    await signOut(auth)
-      .then(() => {
-        navigate("/");
-        console.log("Sign-out successful.");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
+
   return (
     <>
-      <button onClick={logout}>logout</button>
+      <Header
+        name={users.displayName}
+        imgSrc={users.photoURL}
+        email={users.email}
+      />
+
       <div>Hello {users.displayName}</div>
     </>
   );
