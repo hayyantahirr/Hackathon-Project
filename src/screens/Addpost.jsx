@@ -7,7 +7,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function AddPost() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null); // Track selected image URL
   const caption = useRef();
@@ -28,9 +28,19 @@ function AddPost() {
     }
   };
 
-  // Submit the post
+  // Submit the post with validation
   const submitPost = async (e) => {
     e.preventDefault();
+
+    const captionText = caption.current.value;
+    const wordCount = captionText
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length; // Count words
+
+    if (wordCount < 40 || wordCount > 120) {
+      alert("Caption must be between 40 and 120 words");
+      return; // Stop submission if validation fails
+    }
 
     if (img.current.files && img.current.files[0]) {
       const file = img.current.files[0];
@@ -45,7 +55,7 @@ function AddPost() {
       console.log("Image URL: ", url);
       try {
         await addDoc(collection(db, "posts"), {
-          caption: caption.current.value,
+          caption: captionText,
           img: url,
         });
         console.log("Product added successfully");
@@ -58,6 +68,7 @@ function AddPost() {
       console.log("No file selected");
     }
   };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
