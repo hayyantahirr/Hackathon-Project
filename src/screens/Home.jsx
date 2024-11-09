@@ -3,6 +3,7 @@ import { auth } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function Home() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function Home() {
       />
 
       <div>Hello {users.displayName}</div>
+      
     </>
   );
 }

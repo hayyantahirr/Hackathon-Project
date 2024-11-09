@@ -40,10 +40,13 @@ function Login() {
         {/* Left Panel */}
         <div className="panel left-panel">
           <div className="content">
-            <h3>Sign in now!</h3>
+            <h3>Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3ab48f] via-[#eafd1d] to-[#55d2fc]">Nexora</span>!</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Where Moments meet the world!
+              
+            </p>
+            <p>This is a social sight where you can make friends around the world !
+              its a place where you can share your moments with the world.
             </p>
           </div>
           <img src="/public/log.svg" className="image" alt="Log Illustration" />

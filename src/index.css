@@ -1,33 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body{
+  position: relative
+}
 
 /* post add css  */
-.tooltip {
-  position: relative; /* Necessary to position the tooltip within the container */
-}
-
-.tooltiptext {
-  visibility: hidden; /* Initially hide the tooltip */
-
-  position: absolute; /* Position the tooltip relative to its parent */
-
-  background-color: #555;
-
-  color: white;
-
-  text-align: center;
-
-  padding: 5px 0;
-
-  border-radius: 6px;
-
-  z-index: 1; /* Ensure tooltip stays on top */
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible; /* Show the tooltip when hovering over the parent element */
-}
 
 /* icons  */
 .material-symbols-rounded {
@@ -64,3 +42,15 @@
 button:hover {
   transform: scale(1.02);
 }
+/* text feilds  */
+
+.label {
+  @apply block text-zinc-200 text-sm font-normal mb-2;
+}
+.text-field {
+  @apply block outline-none w-full px-3 py-3 text-sm bg-zinc-800  rounded-xl ring-1 ring-inset ring-transparent transition-shadow hover:ring-zinc-50/5 focus:ring-rose-400 focus:ring-2;
+}
+.text-field::placeholder {
+  @apply text-zinc-400;
+}
+

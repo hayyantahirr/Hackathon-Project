@@ -1,9 +1,11 @@
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 function Header({ name, imgSrc, email }) {
   const navigate = useNavigate();
+  const location = useLocation(); // Use location to check current route
+
   const logout = async () => {
     await signOut(auth)
       .then(() => {
@@ -11,7 +13,7 @@ function Header({ name, imgSrc, email }) {
         console.log("Sign-out successful.");
       })
       .catch((error) => {
-        // An error happened.
+        // Handle errors if any
       });
   };
 
@@ -71,7 +73,7 @@ function Header({ name, imgSrc, email }) {
               <li>
                 {/* Toggle theme button */}
                 <button onClick={handleToggle}>
-                  {theme === "emerald" ? " darkMode" : "Light Mode"}
+                  {theme === "emerald" ? "darkMode" : "Light Mode"}
                 </button>
               </li>
               <li onClick={logout}>
@@ -86,31 +88,38 @@ function Header({ name, imgSrc, email }) {
           </a>
         </div>
         <div className="navbar-end">
-          <button
-            className="bg-white text-center w-40 rounded-2xl h-10 relative text-black text-xl font-semibold group mr-8 "
-            type="button"
-          >
-            <div className="bg-green-400 rounded-xl h-8 w-1/5 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[152px] z-10 duration-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                width="20px"
-                height="20px"
+          {/* Conditionally render the "Add Post" button if not on /addpost route */}
+          {location.pathname !== "/addpost" && (
+            <Link to={"/addpost"}>
+              <button
+                className="bg-white text-center w-40 rounded-2xl h-10 relative text-black text-xl font-semibold group mr-8"
+                type="button"
               >
-                <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
-              </svg>
-            </div>
-            <p className="translate-x-2 text-slate-950 text-sm">Add Post</p>
-          </button>
-
-          {/* <div className="flex  text-l ">Create New Post !<span className="material-symbols-rounded text-xl mr-9 cursor-pointer ">Add To Queue</span></div> */}
+                <div className="bg-green-400 rounded-xl h-8 w-1/5 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[152px] z-10 duration-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    width="20px"
+                    height="20px"
+                  >
+                    <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+                  </svg>
+                </div>
+                <p className="translate-x-2 text-slate-950 text-sm">Add Post</p>
+              </button>
+            </Link>
+          )}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full">
+              <div
+                className="w-10 rounded-full"
+                style={{ display: window.innerWidth < 782 ? "none" : "block" }}
+              >
+                {/* Conditionally hide image based on resolution */}
                 <img alt="Tailwind CSS Navbar component" src={imgSrc} />
               </div>
             </div>
