@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/post.css";
 import AddFriend from "./AddFriend";
-function Post({ img, caption, creator, email, creatoPic }) {
+function Post({ img, caption, creator, email, creatoPic,id }) {
   function formatCaption(caption, wordsPerLine = 10) {
     const words = caption.split(" ");
     const lines = [];
@@ -13,23 +13,23 @@ function Post({ img, caption, creator, email, creatoPic }) {
 
   return (
     <>
-    
-      <div className="instagram-card glass">
+      <div className="instagram-card glass ">
         {/* Instagram Card Header */}
-        <div className="instagram-card-header flex items-center justify-start mt-5">
+        <div className="instagram-card-header flex items-center justify-start   border ">
           <img
             src={creatoPic}
-            className="instagram-card-user-image"
+            className="instagram-card-user-image mt-5"
             alt="User"
           />
-          <a className="instagram-card-user-name" href="">
+          <a className="instagram-card-user-name mt-5" href="">
             {creator}
           </a>
+          <AddFriend  receiverID={id} />
         </div>
 
         {/* Instagram Card Image */}
-        <div className="instagram-card-image flex items-center justify-center">
-          <img src={img} height="600px" alt="Post" />
+        <div className="instagram-card-image flex items-center justify-center border border-black mt-5">
+          <img src={img} height="600px " alt="Post" />
         </div>
 
         {/* Instagram Card Content */}

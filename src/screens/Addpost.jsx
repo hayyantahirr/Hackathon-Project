@@ -72,7 +72,8 @@ const [userDetails, setUserDetails] = useState([]);
           img: url,
           creator : userDetails.userName,
           email : userDetails.email,
-          creatorPic : userDetails.img
+          creatorPic : userDetails.img,
+          creatorId: userDetails.userId
         });
         console.log("Product added successfully");
         navigate(-1); // Navigate back after successful submission

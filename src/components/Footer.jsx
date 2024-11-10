@@ -5,11 +5,11 @@ function Footer() {
     <>
       <footer className="footer bg-base-200 text-base-content p-10 ">
         <aside>
-         <img src="/public/Nexora logo.jpg" width={100}/>
+          <img src="/public/Nexora logo.jpg" width={100} />
           <p>
             Nexora Ltd.
             <br />
-           Where moments meet the world
+            Where moments meet the world
           </p>
         </aside>
         <nav>

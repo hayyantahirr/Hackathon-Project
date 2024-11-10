@@ -80,23 +80,21 @@ function Home() {
       <div className="flex flex-col gap-3  justify-center mb-5 items-center">
         {post ? (
           post.map((item) => {
-            console.log(item);
+            console.log("items ====>", item);
             return (
               <Post
-                key={item.id}
-                id={item.id}
                 caption={item.caption}
                 img={item.img}
                 creator={item.creator}
                 creatoPic={item.creatorPic}
                 email={item.email}
+                id={item.id}
               />
             );
           })
         ) : (
           <span className="loading loading-dots loading-lg"></span>
         )}
-        
       </div>
     </>
   );
