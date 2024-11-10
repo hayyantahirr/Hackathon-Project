@@ -37,10 +37,14 @@ function Friends() {
     // First check if the current user is the receiver of the request
     if (recieverId === currentUid) {
       const q = query(
+
         collection(db, "nexoraUsers"),
         where("userId", "==", sendersId)
       );
 
+
+
+      
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         const data = doc.data();

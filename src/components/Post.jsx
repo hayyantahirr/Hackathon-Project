@@ -24,7 +24,8 @@ function Post({ img, caption, creator, email, creatoPic,id }) {
           <a className="instagram-card-user-name mt-5" href="">
             {creator}
           </a>
-          <AddFriend receiverID={id} />
+          <div className="flex ml-auto mt-5"><AddFriend receiverID={id} /></div>
+          
         </div>
 
         {/* Instagram Card Image */}

@@ -54,7 +54,7 @@ function FriendRequests() {
     } catch (e) {
       console.log(e);
     }
-    
+
   }
 
   const showRequestToReciever = async () => {
