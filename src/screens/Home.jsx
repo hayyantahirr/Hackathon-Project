@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import { collection, getDocs, query } from "firebase/firestore";
 import Post from "../components/Post";
 import FriendRequests from "../components/FriendRequests";
+import Friends from "../components/Friends";
 
 function Home() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Home() {
       const querySnapshot = await getDocs(q); // Execute the query
       const allDocs = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        data.id = doc.id; // Add document ID to the data
+
         return data;
       });
       setPost(allDocs); // Update product state with fetched data
@@ -77,9 +78,12 @@ function Home() {
         email={users.email}
         id={users.uid}
       />
-      <div>
-        <FriendRequests />
-        <div className="flex flex-col gap-3  justify-center mb-5 items-center">
+      <div className="flex  items-start ">
+        <div className="flex flex-col gap-3  mb-5 items-center border rounded-2xl border-opacity-30 border-gray-500 p-5 ml-2 ">
+          <FriendRequests />
+        </div>
+
+        <div className="flex flex-col gap-3 justify-center mb-5 items-center  mx-auto">
           {post ? (
             post.map((item) => {
               console.log("items ====>", item);
@@ -97,6 +101,9 @@ function Home() {
           ) : (
             <span className="loading loading-dots loading-lg"></span>
           )}
+        </div>
+        <div className="flex flex-col gap-3  mb-5 items-center border rounded-2xl border-opacity-30 border-gray-500 p-5 ml-2 ">
+          <Friends/>
         </div>
       </div>
     </>
