@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { collection, getDocs, query } from "firebase/firestore";
 import Post from "../components/Post";
+import FriendRequests from "../components/FriendRequests";
 
 function Home() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ function Home() {
       const querySnapshot = await getDocs(q); // Execute the query
       const allDocs = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        data.id = doc.id; // Add document ID to the data
+        // data.id = doc.id; // Add document ID to the data
         return data;
       });
       setNexora(allDocs); // Update product state with fetched data
@@ -76,25 +77,27 @@ function Home() {
         email={users.email}
         id={users.uid}
       />
-
-      <div className="flex flex-col gap-3  justify-center mb-5 items-center">
-        {post ? (
-          post.map((item) => {
-            console.log("items ====>", item);
-            return (
-              <Post
-                caption={item.caption}
-                img={item.img}
-                creator={item.creator}
-                creatoPic={item.creatorPic}
-                email={item.email}
-                id={item.id}
-              />
-            );
-          })
-        ) : (
-          <span className="loading loading-dots loading-lg"></span>
-        )}
+      <div>
+        <FriendRequests />
+        <div className="flex flex-col gap-3  justify-center mb-5 items-center">
+          {post ? (
+            post.map((item) => {
+              console.log("items ====>", item);
+              return (
+                <Post
+                  caption={item.caption}
+                  img={item.img}
+                  creator={item.creator}
+                  creatoPic={item.creatorPic}
+                  email={item.email}
+                  id={item.creatorId}
+                />
+              );
+            })
+          ) : (
+            <span className="loading loading-dots loading-lg"></span>
+          )}
+        </div>
       </div>
     </>
   );

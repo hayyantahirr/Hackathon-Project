@@ -24,6 +24,7 @@ function AddFriend({ receiverID }) {
       await addDoc(collection(db, "friendRequests"), {
         senderUserId: senderId,
         recieverUserId: receiverID,
+        status: "pending",
        
       });
       console.log("Friend request sent successfully");

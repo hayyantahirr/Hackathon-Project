@@ -11,7 +11,7 @@ function AddPost({ currentUid }) {
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null); // Track selected image URL
-const [userDetails, setUserDetails] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
   const caption = useRef();
   const img = useRef();
   const { state } = location; // Get `uid` from passed state
@@ -31,7 +31,10 @@ const [userDetails, setUserDetails] = useState([]);
     }
   };
   const gettingUserThroughUid = async (uid) => {
-    const q = query(collection(db, "nexoraUsers"), where("userId", "==", state));
+    const q = query(
+      collection(db, "nexoraUsers"),
+      where("userId", "==", state)
+    );
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -70,10 +73,10 @@ const [userDetails, setUserDetails] = useState([]);
         await addDoc(collection(db, "posts"), {
           caption: captionText,
           img: url,
-          creator : userDetails.userName,
-          email : userDetails.email,
-          creatorPic : userDetails.img,
-          creatorId: userDetails.userId
+          creator: userDetails.userName,
+          email: userDetails.email,
+          creatorPic: userDetails.img,
+          creatorId: userDetails.userId,
         });
         console.log("Product added successfully");
         navigate(-1); // Navigate back after successful submission
@@ -108,7 +111,6 @@ const [userDetails, setUserDetails] = useState([]);
         name={users.displayName}
         imgSrc={users.photoURL}
         email={users.email}
-
       />
       <div className="container mx-auto relative">
         <div className="flex items-center justify-center">
